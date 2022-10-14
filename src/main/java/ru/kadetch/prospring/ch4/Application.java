@@ -7,7 +7,8 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 public class Application {
     public static void main(String... args) {
         GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
-        ctx.load("classpath:spring/app-context-xml.xml");
+//        ctx.load("classpath:spring/app-context-xml.xml");
+        ctx.load("classpath:spring/app-context-annotation.xml");
         ctx.refresh();
 
         getBean("singerOne", ctx);
@@ -17,9 +18,9 @@ public class Application {
         ctx.close();
     }
 
-    public static SingerWithInterface getBean(String beanName, ApplicationContext ctx) {
+    public static SingerWithJSR250 getBean(String beanName, ApplicationContext ctx) {
         try {
-            SingerWithInterface bean = (SingerWithInterface) ctx.getBean(beanName);
+            SingerWithJSR250 bean = (SingerWithJSR250) ctx.getBean(beanName);
             System.out.println(bean);
             return bean;
         } catch (BeanCreationException ex) {

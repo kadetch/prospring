@@ -1,11 +1,8 @@
 package ru.kadetch.prospring.ch4;
 
-import org.springframework.beans.factory.BeanCreationException;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.GenericXmlApplicationContext;
+import javax.annotation.PostConstruct;
 
-public class SingerWithInterface implements InitializingBean {
+public class SingerWithJSR250 {
 
     private static final String DEFAULT_NAME = "Eric Clapton";
     private String name;
@@ -20,8 +17,14 @@ public class SingerWithInterface implements InitializingBean {
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
-        System.out.println("Initializing bean by interface of InitializingBean ");
+    public String toString() {
+        return "\tName: " + name + "\n\tAge: " + age;
+    }
+
+    @PostConstruct
+    public void init() throws Exception {
+        System.out.println("Initializing bean by PostConstruct");
+
         if (name == null) {
             System.out.println("Using default name");
             name = DEFAULT_NAME;
@@ -30,12 +33,8 @@ public class SingerWithInterface implements InitializingBean {
         if (age == Integer.MIN_VALUE) {
             throw new IllegalArgumentException("You must set "
                     + "the age property of any beans of type "
-                    + SingerWithInterface.class);
+                    + SingerWithJSR250.class);
+
         }
     }
-
-    public String toString() {
-        return "\tName: " + name + "\n\tAge: " + age;
-    }
-
 }
