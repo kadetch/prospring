@@ -5,10 +5,10 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 public class Application {
     public static void main(String... args) {
         GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
-        ctx.load("classpath:spring/app-context-xml.xml");
+        ctx.load("classpath:spring/app-context-annotation.xml");
         ctx.refresh();
 
-        DestructiveBeanWithInterface bean = (DestructiveBeanWithInterface)
+        DestructiveBeanWithJSR250 bean = (DestructiveBeanWithJSR250)
                 ctx.getBean("destructiveBean");
 
         System.out.println("Calling destroy()");
