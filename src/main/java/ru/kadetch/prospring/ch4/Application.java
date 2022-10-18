@@ -8,7 +8,8 @@ public class Application {
         ctx.load("classpath:spring/app-context-xml.xml");
         ctx.refresh();
 
-        DestructiveBean bean = (DestructiveBean) ctx.getBean("destructiveBean");
+        DestructiveBeanWithInterface bean = (DestructiveBeanWithInterface)
+                ctx.getBean("destructiveBean");
 
         System.out.println("Calling destroy()");
         ctx.destroy();

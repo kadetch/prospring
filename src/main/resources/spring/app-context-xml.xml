@@ -5,8 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
        default-lazy-init="true">
     <bean id="destructiveBean"
-          class="ru.kadetch.prospring.ch4.DestructiveBean"
-          destroy-method="destroy"
+          class="ru.kadetch.prospring.ch4.DestructiveBeanWithInterface"
           p:filePath="#{systemProperties['java.io.tmpdir']}#{systemProperties['file.separator']}test.txt"/>
 
 </beans>
