@@ -14,6 +14,6 @@
     <bean id="destructiveBean"
           class="ru.kadetch.prospring.ch4.DestructiveBeanWithInterface"
           p:filePath="#{systemProperties['java.io.tmpdir']}#{systemProperties['file.separator']}test.txt"/>
-    <bean id="shuutdownHook"
+    <bean id="shutdownHook"
           class="ru.kadetch.prospring.ch4.ShutdownHookBean"/>
 </beans>
