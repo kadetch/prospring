@@ -12,7 +12,8 @@
     <context:annotation-config/>
 
     <bean id="destructiveBean"
-          class="ru.kadetch.prospring.ch4.DestructiveBeanWithJSR250"
+          class="ru.kadetch.prospring.ch4.DestructiveBeanWithInterface"
           p:filePath="#{systemProperties['java.io.tmpdir']}#{systemProperties['file.separator']}test.txt"/>
-
+    <bean id="shuutdownHook"
+          class="ru.kadetch.prospring.ch4.ShutdownHookBean"/>
 </beans>

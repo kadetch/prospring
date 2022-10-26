@@ -5,13 +5,12 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 
 public class Application {
     public static void main(String... args) {
-        GenericApplicationContext ctx =
-                new GenericXmlApplicationContext("classpath:spring/app-context-xml.xml");
-
-        NamedSinger bean = (NamedSinger)ctx.getBean("johnMayer");
-        bean.sing();
-
-        ctx.close();
+        GenericXmlApplicationContext ctx =
+                new GenericXmlApplicationContext();
+        ctx.load("classpath:spring/app-context-annotation.xml");
+        ctx.registerShutdownHook();
+        ctx.refresh();
+        ctx.getBean("destructiveBean",DestructiveBeanWithInterface.class);
     }
 
 }
