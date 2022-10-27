@@ -7,10 +7,14 @@ public class Application {
     public static void main(String... args) {
         GenericXmlApplicationContext ctx =
                 new GenericXmlApplicationContext();
-        ctx.load("classpath:spring/app-context-annotation.xml");
-        ctx.registerShutdownHook();
+        ctx.load("classpath:spring/app-context-xml.xml");
         ctx.refresh();
-        ctx.getBean("destructiveBean",DestructiveBeanWithInterface.class);
+
+        MessageDigester messageDigester = ctx.getBean("digester", MessageDigester.class);
+        messageDigester.digest("Hello World!");
+
+        ctx.close();
+
     }
 
 }
