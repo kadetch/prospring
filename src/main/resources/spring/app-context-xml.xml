@@ -5,11 +5,20 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
        default-lazy-init="true">
 
-    <bean id="shaDigest" class="ru.kadetch.prospring.ch4.MessageDigestFactoryBean"
+    <bean id="shaDigestFactory" class="ru.kadetch.prospring.ch4.MessageDigestFactory"
           p:algorithmName="SHA1"/>
 
-    <bean id="defaultDigest" class="ru.kadetch.prospring.ch4.MessageDigestFactoryBean"/>
+    <bean id="shaDigest"
+          factory-bean="shaDigestFactory"
+          factory-method="createInstance">
+          </bean>
 
+    <bean id="defaultDigestFactory" class="ru.kadetch.prospring.ch4.MessageDigestFactory"/>
+
+    <bean id="defaultDigest"
+          factory-bean="defaultDigestFactory"
+          factory-method="createInstance">
+    </bean>
     <bean id="digester"
           class="ru.kadetch.prospring.ch4.MessageDigester"
           p:digest1-ref="shaDigest"
