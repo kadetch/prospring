@@ -6,16 +6,23 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 import ru.kadetch.prospring.ch4.custom.CustomEditorExample;
 
 import java.io.File;
+import java.util.Locale;
 
 public class Application {
-    public static void main(String... args) throws Exception{
+    public static void main(String... args) throws Exception {
         GenericXmlApplicationContext ctx =
                 new GenericXmlApplicationContext();
-        ctx.load("classpath:spring/app-context-02.xml");
+        ctx.load("classpath:spring/app-context-xml.xml");
         ctx.refresh();
 
-        CustomEditorExample bean = (CustomEditorExample) ctx.getBean("exampleBean");
-        System.out.println(bean.getName());
+        Locale english = Locale.ENGLISH;
+        Locale german = new Locale("de", "DE");
+
+        System.out.println(ctx.getMessage("msg", null, english));
+        System.out.println(ctx.getMessage("msg", null, german));
+        System.out.println(ctx.getMessage("nameMsg", new Object[]{"John", "Mayes"}, english));
+        System.out.println(ctx.getMessage("nameMsg", new Object[]{"John", "Mayes"}, german));
+
         ctx.close();
     }
 
