@@ -7,11 +7,9 @@
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
        default-lazy-init="true">
 
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"
-          p:basenames-ref="basenames"/>
+    <bean id="publisher" class="ru.kadetch.prospring.ch4.Publisher"/>
 
-    <util:list id="basenames">
-        <value>labels</value>
-    </util:list>
+    <bean id="message EventListener" class="ru.kadetch.prospring.ch4.MessageEventListener"/>
+
 
 </beans>
