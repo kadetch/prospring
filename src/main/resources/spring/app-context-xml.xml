@@ -7,9 +7,14 @@
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
        default-lazy-init="true">
 
-    <bean id="publisher" class="ru.kadetch.prospring.ch4.Publisher"/>
+    <bean id="messageRenderer" class="ru.kadetch.prospring.ch2.decoupled.StandardOutMessageRenderer"
+    p:messageProvider-ref="messageProvider"/>
 
-    <bean id="message EventListener" class="ru.kadetch.prospring.ch4.MessageEventListener"/>
+    <bean id="messageProvider" class="ru.kadetch.prospring.ch2.decoupled.ConfigurableMessageProvider">
+        <constructor-arg>
+            <value>This is a configurable message</value>
+        </constructor-arg>
+    </bean>
 
 
 </beans>
