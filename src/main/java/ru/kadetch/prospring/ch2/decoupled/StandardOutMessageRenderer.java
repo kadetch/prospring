@@ -19,7 +19,7 @@ public class StandardOutMessageRenderer implements MessageRenderer {
 
     @Override
     public void setMessageProvider(MessageProvider provider) {
-        System.out.println("--> StandardOutMessageRenderer: setting th provider");
+        System.out.println("--> StandardOutMessageRenderer: setting the provider");
         this.messageProvider = provider;
     }
 
