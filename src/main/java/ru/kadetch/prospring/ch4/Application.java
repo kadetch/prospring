@@ -1,29 +1,32 @@
 package ru.kadetch.prospring.ch4;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.MapPropertySource;
+import org.springframework.core.env.MutablePropertySources;
 import ru.kadetch.prospring.ch4.config.HighschoolConfig;
 import ru.kadetch.prospring.ch4.config.KindergartenConfig;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-@ComponentScan
 public class Application {
     public static void main(String... args) throws Exception {
-        GenericApplicationContext ctx =
-                new AnnotationConfigApplicationContext(KindergartenConfig.class, HighschoolConfig.class);
-        System.out.println(Arrays.toString(ctx.getEnvironment().getActiveProfiles()));
+        GenericXmlApplicationContext ctx =
+                new GenericXmlApplicationContext();
+        ctx.load("classpath:spring/app-context-xml.xml");
+        ctx.refresh();
 
-        FoodProviderService foodProviderService = ctx.getBean("foodProviderService",
-                FoodProviderService.class);
+        AppProperty appProperty = ctx.getBean("appProperty", AppProperty.class);
 
-        List<Food> lunchSet = foodProviderService.provideLunchSet();
-        for (Food food : lunchSet) {
-            System.out.println("Food: " + food.getName());
-        }
+        System.out.println("application.home: " + appProperty.getApplicationHome());
+        System.out.println("user.home: " + appProperty.getUserHome());
+
         ctx.close();
+
     }
 
 }
