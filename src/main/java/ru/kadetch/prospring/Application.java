@@ -1,21 +1,46 @@
 package ru.kadetch.prospring;
 
 import org.springframework.aop.framework.ProxyFactory;
-import ru.kadetch.prospring.ch5.Guitarist;
-import ru.kadetch.prospring.ch5.SimpleBeforeAdvice;
+import ru.kadetch.prospring.ch5.*;
+import ru.kadetch.prospring.ch5.SecurityManager;
 
 public class Application {
     public static void main(String... args) throws Exception {
-        Guitarist johnMayer = new Guitarist();
+        SecurityManager manager = new SecurityManager();
 
-        ProxyFactory pf = new ProxyFactory();
-        pf.addAdvice(new SimpleBeforeAdvice());
-        pf.setTarget(johnMayer);
+        SecureBean bean = getSecureBean();
 
-        Guitarist proxy = (Guitarist) pf.getProxy();
+        manager.login("John", "pwd");
+        bean.writeSecureMessage();
+        manager.logout();
 
-        proxy.sing();
+        try {
+            manager.login("invalid_user", "pwd");
+            bean.writeSecureMessage();
+        } catch (SecurityException ex){
+            System.out.println("Exception Caught: " + ex.getMessage());
+        } finally {
+            manager.logout();
+        }
+
+        try {
+            bean.writeSecureMessage();
+        } catch (SecurityException ex){
+            System.out.println("Exception Caught: " + ex.getMessage());
+        }
 
     }
 
+    private static SecureBean getSecureBean(){
+        SecureBean target = new SecureBean();
+
+        SecurityAdvice advice = new SecurityAdvice();
+        ProxyFactory factory = new ProxyFactory();
+        factory.setTarget(target);
+        factory.addAdvice(advice);
+
+        SecureBean proxy = (SecureBean) factory.getProxy();
+
+        return proxy;
+    }
 }
