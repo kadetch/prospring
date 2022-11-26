@@ -2,45 +2,17 @@ package ru.kadetch.prospring;
 
 import org.springframework.aop.framework.ProxyFactory;
 import ru.kadetch.prospring.ch5.*;
-import ru.kadetch.prospring.ch5.SecurityManager;
 
 public class Application {
     public static void main(String... args) throws Exception {
-        SecurityManager manager = new SecurityManager();
+        Guitarist target = new Guitarist();
 
-        SecureBean bean = getSecureBean();
+        ProxyFactory pf = new ProxyFactory();
+        pf.addAdvice(new SimpleAfterReturningAdvice());
+        pf.setTarget(target);
 
-        manager.login("John", "pwd");
-        bean.writeSecureMessage();
-        manager.logout();
-
-        try {
-            manager.login("invalid_user", "pwd");
-            bean.writeSecureMessage();
-        } catch (SecurityException ex){
-            System.out.println("Exception Caught: " + ex.getMessage());
-        } finally {
-            manager.logout();
-        }
-
-        try {
-            bean.writeSecureMessage();
-        } catch (SecurityException ex){
-            System.out.println("Exception Caught: " + ex.getMessage());
-        }
-
+        Guitarist proxy = (Guitarist) pf.getProxy();
+        proxy.sing();
     }
 
-    private static SecureBean getSecureBean(){
-        SecureBean target = new SecureBean();
-
-        SecurityAdvice advice = new SecurityAdvice();
-        ProxyFactory factory = new ProxyFactory();
-        factory.setTarget(target);
-        factory.addAdvice(advice);
-
-        SecureBean proxy = (SecureBean) factory.getProxy();
-
-        return proxy;
-    }
 }
