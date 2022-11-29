@@ -3,18 +3,24 @@ package ru.kadetch.prospring;
 import org.springframework.aop.framework.ProxyFactory;
 import ru.kadetch.prospring.ch5.*;
 
-//Creating the surrounding advice
+//Creating the intercepting advice
 public class Application {
     public static void main(String... args) throws Exception {
-        WorkerBean workerBean = getWorkerBean();
-        workerBean.doSomeWork(10000000);
+        ErrorBean errorBean = new ErrorBean();
+        ProxyFactory factory = new ProxyFactory();
+        factory.setTarget(errorBean);
+        factory.addAdvice(new SimpleThrowsAdvice());
+        ErrorBean proxy = (ErrorBean) factory.getProxy();
+        try {
+            proxy.errorProneMethod();
+        } catch (Exception ex) {
+
+        }
+        try {
+            proxy.otherProneMethod();
+        } catch (Exception ex) {
+
+        }
     }
 
-    private static WorkerBean getWorkerBean() {
-        WorkerBean target = new WorkerBean();
-        ProxyFactory factory = new ProxyFactory();
-        factory.addAdvice(new ProfilingInterceptor());
-        factory.setTarget(target);
-        return (WorkerBean) factory.getProxy();
-    }
 }
