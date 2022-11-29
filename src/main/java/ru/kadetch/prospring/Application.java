@@ -3,24 +3,18 @@ package ru.kadetch.prospring;
 import org.springframework.aop.framework.ProxyFactory;
 import ru.kadetch.prospring.ch5.*;
 
+//Creating the surrounding advice
 public class Application {
     public static void main(String... args) throws Exception {
-        KeyGenerator keyGen = getKeyGenerator();
-        for (int x =0; x < 10; x++){
-            try {
-                long key = keyGen.getKey();
-                System.out.println("Key: " + key);
-            } catch (SecurityException ex){
-                System.out.println("Weak Key Generated!");
-            }
-        }
+        WorkerBean workerBean = getWorkerBean();
+        workerBean.doSomeWork(10000000);
     }
 
-    private static KeyGenerator getKeyGenerator(){
-        KeyGenerator target = new KeyGenerator();
+    private static WorkerBean getWorkerBean() {
+        WorkerBean target = new WorkerBean();
         ProxyFactory factory = new ProxyFactory();
-        factory.addAdvice(new WeakKeyCheckAdvice());
+        factory.addAdvice(new ProfilingInterceptor());
         factory.setTarget(target);
-        return (KeyGenerator) factory.getProxy();
+        return (WorkerBean) factory.getProxy();
     }
 }
