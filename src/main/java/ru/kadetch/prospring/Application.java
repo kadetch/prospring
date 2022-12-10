@@ -1,39 +1,30 @@
 package ru.kadetch.prospring;
 
-import org.aopalliance.aop.Advice;
 import org.springframework.aop.Advisor;
-import org.springframework.aop.Pointcut;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
-import ru.kadetch.prospring.ch2.common.Singer;
 import ru.kadetch.prospring.ch5.*;
 
-// Creating a Static Pointcut by Using StaticMethodMatcherPointcut
+// Creating a Dynamic Pointcut by Using DynamicMethodMatcherPointcut
 public class Application {
     public static void main(String... args) {
 
-        GoodGuitarist johnMayer = new GoodGuitarist();
-        GreatGuitarist ericClapton = new GreatGuitarist();
-
-        Singer proxyOne;
-        Singer proxyTwo;
-
-        Pointcut pc = new SimpleStaticPointcut();
-        Advice advice = new SimpleAdvice();
-        Advisor advisor = new DefaultPointcutAdvisor(pc, advice);
+        SampleBean target = new SampleBean();
+        Advisor advisor = new DefaultPointcutAdvisor(new SimpleDynamicPointcut(),
+                new SimpleAdvice());
 
         ProxyFactory pf = new ProxyFactory();
         pf.addAdvisor(advisor);
-        pf.setTarget(johnMayer);
-        proxyOne = (Singer) pf.getProxy();
+        pf.setTarget(target);
+        SampleBean proxy = (SampleBean) pf.getProxy();
 
-        pf = new ProxyFactory();
-        pf.addAdvisor(advisor);
-        pf.setTarget(ericClapton);
-        proxyTwo = (Singer) pf.getProxy();
+        proxy.foo(1);
+        proxy.foo(10);
+        proxy.foo(100);
 
-        proxyOne.sing();
-        proxyTwo.sing();
+        proxy.bar();
+        proxy.bar();
+        proxy.bar();
 
     }
 
