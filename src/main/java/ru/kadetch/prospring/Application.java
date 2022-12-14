@@ -3,28 +3,32 @@ package ru.kadetch.prospring;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.aop.support.NameMatchMethodPointcut;
+import ru.kadetch.prospring.ch2.common.Guitar;
 import ru.kadetch.prospring.ch5.*;
 
-// Creating a Dynamic Pointcut by Using DynamicMethodMatcherPointcut
+// Using Simple Name Matching
 public class Application {
     public static void main(String... args) {
 
-        SampleBean target = new SampleBean();
-        Advisor advisor = new DefaultPointcutAdvisor(new SimpleDynamicPointcut(),
-                new SimpleAdvice());
+        GrammyGuitarist johnMayer = new GrammyGuitarist();
+
+        NameMatchMethodPointcut pc = new NameMatchMethodPointcut();
+        pc.addMethodName("sing");
+        pc.addMethodName("rest");
+
+        Advisor advisor = new DefaultPointcutAdvisor(pc, new SimpleAdvice());
 
         ProxyFactory pf = new ProxyFactory();
         pf.addAdvisor(advisor);
-        pf.setTarget(target);
-        SampleBean proxy = (SampleBean) pf.getProxy();
+        pf.setTarget(johnMayer);
 
-        proxy.foo(1);
-        proxy.foo(10);
-        proxy.foo(100);
+        GrammyGuitarist proxy = (GrammyGuitarist) pf.getProxy();
 
-        proxy.bar();
-        proxy.bar();
-        proxy.bar();
+        proxy.sing();
+        proxy.sing(new Guitar());
+        proxy.rest();
+        proxy.talk();
 
     }
 
