@@ -1,18 +1,20 @@
 package ru.kadetch.prospring.ch5;
 
+import ru.kadetch.prospring.ch2.common.Guitar;
 import ru.kadetch.prospring.ch2.common.Singer;
 
 public class Guitarist implements Singer {
     @Override
     public void sing() {
-        System.out.println("Just keep me where the light is");
+        System.out.println("Dream of ways tho throw it all away");
     }
 
-    public void sing2(){
-        System.out.println("Oh gravity, stay the hall from me");
+    @AdviceRequired
+    public void sing(Guitar guitar) {
+        System.out.println("play: " + guitar.play());
     }
 
-    public void rest(){
+    public void rest() {
         System.out.println("zzz");
     }
 
