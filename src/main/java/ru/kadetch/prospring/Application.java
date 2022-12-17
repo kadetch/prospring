@@ -1,30 +1,30 @@
 package ru.kadetch.prospring;
 
-import org.springframework.aop.Advisor;
 import org.springframework.aop.framework.ProxyFactory;
-import org.springframework.aop.support.DefaultPointcutAdvisor;
-import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
+import org.springframework.aop.support.NameMatchMethodPointcutAdvisor;
 import ru.kadetch.prospring.ch2.common.Guitar;
 import ru.kadetch.prospring.ch5.*;
 
-// Creating Annotation Matching Pointcuts
+// Convenience Advisor Implementations
 public class Application {
     public static void main(String... args) {
 
-        Guitarist johnMayer = new Guitarist();
+        GrammyGuitarist johnMayer = new GrammyGuitarist();
 
-        AnnotationMatchingPointcut pc = AnnotationMatchingPointcut.forMethodAnnotation(AdviceRequired.class);
-
-        Advisor advisor = new DefaultPointcutAdvisor(pc, new SimpleAdvice());
+        NameMatchMethodPointcutAdvisor advisor = new NameMatchMethodPointcutAdvisor(new SimpleAdvice());
+        advisor.addMethodName("sing");
+        advisor.addMethodName("rest");
 
         ProxyFactory pf = new ProxyFactory();
         pf.addAdvisor(advisor);
         pf.setTarget(johnMayer);
 
-        Guitarist proxy = (Guitarist) pf.getProxy();
+        GrammyGuitarist proxy = (GrammyGuitarist) pf.getProxy();
 
+        proxy.sing();
         proxy.sing(new Guitar());
         proxy.rest();
+        proxy.talk();
 
     }
 
