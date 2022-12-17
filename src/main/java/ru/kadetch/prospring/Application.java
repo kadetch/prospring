@@ -3,19 +3,17 @@ package ru.kadetch.prospring;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
-import org.springframework.aop.support.NameMatchMethodPointcut;
-import ru.kadetch.prospring.ch2.common.Guitar;
+import org.springframework.aop.support.JdkRegexpMethodPointcut;
 import ru.kadetch.prospring.ch5.*;
 
-// Using Simple Name Matching
+// Creating Pointcuts with Regular Expressions
 public class Application {
     public static void main(String... args) {
 
-        GrammyGuitarist johnMayer = new GrammyGuitarist();
+        Guitarist johnMayer = new Guitarist();
 
-        NameMatchMethodPointcut pc = new NameMatchMethodPointcut();
-        pc.addMethodName("sing");
-        pc.addMethodName("rest");
+        JdkRegexpMethodPointcut pc = new JdkRegexpMethodPointcut();
+        pc.setPattern(".*sing.*");
 
         Advisor advisor = new DefaultPointcutAdvisor(pc, new SimpleAdvice());
 
@@ -23,12 +21,11 @@ public class Application {
         pf.addAdvisor(advisor);
         pf.setTarget(johnMayer);
 
-        GrammyGuitarist proxy = (GrammyGuitarist) pf.getProxy();
+        Guitarist proxy = (Guitarist) pf.getProxy();
 
         proxy.sing();
-        proxy.sing(new Guitar());
+        proxy.sing2();
         proxy.rest();
-        proxy.talk();
 
     }
 
