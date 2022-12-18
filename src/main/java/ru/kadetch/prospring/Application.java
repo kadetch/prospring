@@ -1,21 +1,33 @@
 package ru.kadetch.prospring;
 
-import org.springframework.aop.Advisor;
-import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.aop.ClassFilter;
+import org.springframework.aop.support.ComposablePointcut;
 import ru.kadetch.prospring.ch5.*;
 
 // Comparing Proxy Performance
 public class Application {
     public static void main(String... args) {
 
-        SimpleBean target = new DefaultSimpleBean();
+        GrammyGuitarist johnMayer = new GrammyGuitarist();
 
-        Advisor advisor = new DefaultPointcutAdvisor(new TestPointcut(),
-                new NoOpBeforeAdvice());
-        ProxyPerfTest proxyPerfTest = new ProxyPerfTest();
-        proxyPerfTest.runCglibTests(advisor, target);
-        proxyPerfTest.runCglibFrozenTests(advisor, target);
-        proxyPerfTest.runJdkTests(advisor, target);
+        ComposablePointcut pc = new ComposablePointcut(ClassFilter.TRUE,
+                new ComposablePointcutExample.SingMethodMatcher());
+
+        System.out.println("Test 1 >> ");
+        GrammyGuitarist proxy = new ComposablePointcutExample().getProxy(pc, johnMayer);
+        new ComposablePointcutExample().testInvoke(proxy);
+        System.out.println();
+
+        System.out.println("Test 2 >>");
+        pc.union(new ComposablePointcutExample.TalkMethodMatcher());
+        proxy = new ComposablePointcutExample().getProxy(pc, johnMayer);
+        new ComposablePointcutExample().testInvoke(proxy);
+        System.out.println();
+
+        System.out.println("Test 3 >>");
+        pc.intersection(new ComposablePointcutExample.RestMethodMatcher());
+        proxy = new ComposablePointcutExample().getProxy(pc, johnMayer);
+        new ComposablePointcutExample().testInvoke(proxy);
     }
 
 }
