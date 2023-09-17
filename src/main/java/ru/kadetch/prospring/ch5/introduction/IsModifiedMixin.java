@@ -7,11 +7,10 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public class IsModifiedMixin extends DelegatingIntroductionInterceptor
-        implements IsModified {
+public class IsModifiedMixin extends DelegatingIntroductionInterceptor implements IsModified {
     private boolean isModified = false;
 
-    private Map<Method, Method> methodCache = new HashMap<>();
+    private final Map<Method, Method> methodCache = new HashMap<>();
     @Override
     public boolean isModified() {
         return isModified;

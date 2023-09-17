@@ -3,7 +3,6 @@ package ru.kadetch.prospring;
 import org.springframework.aop.IntroductionAdvisor;
 import org.springframework.aop.framework.ProxyFactory;
 import ru.kadetch.prospring.ch2.common.Contact;
-import ru.kadetch.prospring.ch5.*;
 import ru.kadetch.prospring.ch5.introduction.IsModified;
 import ru.kadetch.prospring.ch5.introduction.IsModifiedAdvisor;
 
@@ -24,13 +23,17 @@ public class Application {
         Contact proxy = (Contact) pf.getProxy();
         IsModified proxyInterface = (IsModified) proxy;
 
-        System.out.println("Is Contact? " + (proxy instanceof Contact));
-        System.out.println("Is Modified? " + (proxy instanceof IsModified));
-        System.out.println("Has been modified? " + (((IsModified) proxy).isModified() ));
+        System.out.printf("%s:%n", target.getClass().getSimpleName());
+        System.out.printf("Is Contact? - %s%n", (target instanceof Contact));
+        System.out.printf("Is Modified? - %s%n", (target instanceof IsModified));
+        System.out.println(proxy.getClass().getSimpleName() +":");
+        System.out.println("Is Contact? - " + (proxy instanceof Contact));
+        System.out.println("Is Modified? - " + (proxy instanceof IsModified));
+        System.out.println("Has been modified? " + proxyInterface.isModified() );
         proxy.setName("John Mayer");
-        System.out.println("Has been modified? " + (((IsModified) proxy).isModified() ));
+        System.out.println("Has been modified? " + proxyInterface.isModified() );
         proxy.setName("Eric Clapton");
-        System.out.println("Has been modified? " + (((IsModified) proxy).isModified() ));
+        System.out.println("Has been modified? " + proxyInterface.isModified() );
     }
 
 }
