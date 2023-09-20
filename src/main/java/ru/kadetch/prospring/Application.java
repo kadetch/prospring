@@ -1,16 +1,16 @@
 package ru.kadetch.prospring;
 
-import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
 import ru.kadetch.prospring.ch2.common.Contact;
+import ru.kadetch.prospring.ch5.config.AppConfig;
 import ru.kadetch.prospring.ch5.introduction.IsModified;
 
-// Framework Services for AOP- Using ProxyFactoryBean for Introductions
+// Framework Services for AOP- Using ProxyFactoryBean for Introductions with Configuration Class
 public class Application {
     public static void main(String... args) {
 
-        GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
-        ctx.load("spring/app-context-xml-03.xml");
-        ctx.refresh();
+        GenericApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
 
         Contact bean = (Contact) ctx.getBean("bean");
         IsModified mod = (IsModified) bean;
