@@ -1,15 +1,13 @@
 package ru.kadetch.prospring;
 
-import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.kadetch.prospring.ch5.Documentarist;
+import ru.kadetch.prospring.ch5.config.AopConfig;
 
-// Framework Services for AOP- Using ProxyFactoryBean
+// Using ProxyFactoryBean (ProSpring6)
 public class Application {
     public static void main(String... args) {
-
-        GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
-        ctx.load("spring/app-context-xml-03.xml");
-        ctx.refresh();
+        var ctx = new AnnotationConfigApplicationContext(AopConfig.class);
 
         Documentarist documentaristOne = ctx.getBean("documentaristOne", Documentarist.class);
         Documentarist documentaristTwo = ctx.getBean("documentaristTwo", Documentarist.class);
